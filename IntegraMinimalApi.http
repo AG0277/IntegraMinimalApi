@@ -1,17 +1,24 @@
 @IntegraMinimalApi_HostAddress = https://localhost:7134
 
-GET {{IntegraMinimalApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
 
 POST {{IntegraMinimalApi_HostAddress}}/appuser
 Content-Type: application/json
 
 {
-  "Name":"Artur",
-  "LastName":"Grabek",
-  "DateOfBirth": "2002-11-27T00:00:00",
-  "Address": "Gliwice spoldziecza"
+  "name": "string",
+  "lastName": "string",
+  "dateOfBirth": "2024-05-22",
+  "country": "string",
+  "city": "string",
+  "street": "string",
+  "houseNumber": 2147483647
 }
+###
+
+GET {{IntegraMinimalApi_HostAddress}}/appuser/2
+Content-Type: application/json
+###
+
+GET {{IntegraMinimalApi_HostAddress}}/appuser
+Content-Type: application/json
 ###

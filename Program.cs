@@ -1,5 +1,8 @@
 using IntegraMinimalApi;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +31,17 @@ app.MapGet("/appuser/{id}", async (int id, MinimalApiDb db) =>
 
 app.MapPost("/appuser", async (AppUserDto appUserDto, MinimalApiDb db) =>
 {
+    var validationResults = new List<ValidationResult>();
+    if (!Validator.TryValidateObject(appUserDto,new ValidationContext(appUserDto), validationResults, true))
+    {
+        var errorMessages = new List<string>();
+        foreach(var validationResult in validationResults)
+        {
+            errorMessages.Add(validationResult.ErrorMessage);
+        }
+       
+        return Results.BadRequest(errorMessages);
+    }
     var appUser = appUserDto.AppUserDtoToAppUser();
     var createdAppUser = await db.AppUsers.AddAsync(appUser);
     await db.SaveChangesAsync();
